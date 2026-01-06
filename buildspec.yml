@@ -15,6 +15,10 @@ phases:
     commands:
       - aws s3 sync dist/angular-cloudfront s3://angular-cloudfront-bucket --delete
 
+cache:
+  paths:
+    - node_modules/**/*
+
 artifacts:
   files:
     - '**/*'
