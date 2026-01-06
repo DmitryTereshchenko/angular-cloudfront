@@ -24,7 +24,6 @@ export class App {
   }
 
   ngAfterViewInit() {
-    console.log(this.searchInput);
     fromEvent(this.searchInput.nativeElement, 'input')
       .pipe(
         tap((d) => console.log(d)),
