@@ -12,4 +12,14 @@ input {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+
+  >div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  img {
+    flex: 1 1 auto;
+    border-bottom: 4px solid red;
+  }
 }
