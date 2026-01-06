@@ -1,1 +1,10 @@
-Hello, Vitalik
+<input type="text" placeholder="Введите название" #search />
+
+<div class="wrapper">
+  @for(item of filteredData; track item.id) {
+  <div class="content">
+    <h3>{{ item.title }}</h3>
+    <img [src]="item.image" />
+  </div>
+  }
+</div>

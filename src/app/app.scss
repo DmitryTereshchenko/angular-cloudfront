@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+input {
+  display: block;
+  padding: 10px;
+  width: 300px;
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
