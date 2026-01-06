@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - npm ci
+
+  build:
+    commands:
+      - npm run build -- --configuration production
+
+  post_build:
+    commands:
+      - aws s3 sync dist/angular-cloudfront s3://angular-cloudfront-bucket --delete
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: dist/angular-cloudfront
