@@ -9,9 +9,9 @@ input {
 }
 
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
 
   >div {
     display: flex;
@@ -20,6 +20,9 @@ input {
 
   h3 {
     color: rgb(155, 155, 147);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   img {
