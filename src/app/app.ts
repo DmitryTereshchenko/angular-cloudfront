@@ -1,38 +1,38 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { GamesService } from './games.service';
-import { debounceTime, distinctUntilChanged, fromEvent, map, switchMap, tap } from 'rxjs';
+import { debounceTime, delay, distinctUntilChanged, fromEvent, map, tap } from 'rxjs';
+import { DatePipe } from '@angular/common';
+import { Rating } from "./common";
+import { Paginator } from "./shared/paginator/paginator";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  imports: [DatePipe, Rating, Paginator],
 })
-export class App {
+export class App implements OnInit {
   @ViewChild('search') searchInput!: ElementRef<HTMLInputElement>;
 
   data: any[] = [];
 
-  filteredData: any[] = [];
+  isLoading: boolean = false;
 
   private gamesService = inject(GamesService);
 
   ngOnInit() {
-    this.gamesService.getData().subscribe((data) => {
-      this.data = data as any[];
-      this.filteredData = this.data;
-    });
+    this.getData();
   }
 
-  ngAfterViewInit() {
-    fromEvent(this.searchInput.nativeElement, 'input')
-      .pipe(
-        tap((d) => console.log(d)),
-        map((event: Event) => (event.target as HTMLInputElement).value),
-        debounceTime(500),
-        distinctUntilChanged(),
-        map((searchTerm: string) => this.data.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()))),
-      ).subscribe((data: any[]) => {
-        this.filteredData = data;
-      });
+  onPageChanged(page: number) {
+    this.getData(page);
+  }
+
+  getData(page: number = 1) {
+    this.isLoading = true;
+    this.gamesService.getData({ page }).pipe(delay(1000)).subscribe((data: any[]) => {
+      this.data = data;
+      this.isLoading = false;
+    });
   }
 }

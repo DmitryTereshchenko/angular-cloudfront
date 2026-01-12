@@ -1,10 +1,19 @@
-<input type="text" placeholder="Введите название игры" #search />
-
 <div class="wrapper">
-  @for(item of filteredData; track item.id) {
+  @if(isLoading) {
+  <div class="loader"></div>
+  }
+  @for(item of data; track item.id) {
   <div class="content">
-    <h3>{{ item.title }}</h3>
-    <img [src]="item.image" />
+    <h3>{{ item.name }}</h3>
+    <img [src]="item.background_image" />
+    <div class="info">
+      <span class="info__rating" appRating [ratingValue]="item.metacritic || 'N/A'">{{ item.metacritic || '- -'
+        }}</span>
+      <span class="info__date">{{ item.released | date:'yyyy-MM-dd'}}</span>
+    </div>
   </div>
   }
 </div>
+@if(data.length > 0) {
+<app-paginator [totalItems]="data.length" (pageChanged)="onPageChanged($event)"></app-paginator>
+}

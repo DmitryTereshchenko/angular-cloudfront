@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { delay, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GamesService {
-  private url: string = 'https://gamerpower.p.rapidapi.com/api/giveaways';
+  private url: string = 'https://api.rawg.io/api/games';
 
   private httpClient = inject(HttpClient);
 
-  getData() {
-    return this.httpClient.get(this.url, {
-      headers: {
-        'x-rapidapi-key': '7fb9bd786emsha7dbaceb1d5a830p1195eajsnbe00a0ab6c5a',
-        'x-rapidapi-host': 'gamerpower.p.rapidapi.com'
-      }
-    });
+  getData(params: { page: number }) {
+    return this.httpClient.get(this.url, { params: { page: params.page, page_size: 100 } }).pipe(
+      map((response: any) => response.results)
+    );
   }
 }

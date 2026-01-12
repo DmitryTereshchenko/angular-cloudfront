@@ -1,0 +1,5 @@
+@for (item of totalPages; track $index) {
+<button [class.active]="item === currentPage" (click)="onPageChanged(item)">
+  {{ item }}
+</button>
+}
